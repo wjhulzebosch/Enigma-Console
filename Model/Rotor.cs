@@ -46,19 +46,46 @@ namespace Enigma.Model
             setWiring();
         }
 
-        public void incrementPosition()
+        /// <summary>
+        /// Increments the position of the rotor with one.
+        /// </summary>
+        public bool IncrementPosition()
         {
-            _position++;
+            bool returnValue = false;
+            _position++;      
+            _position %= 26;
+            return returnValue;
         }
 
-        public int getPosition()
+        public int GetPosition()
         {
             return _position;
         }
 
-        public void SetPosition (int newPosition)
+        public void SetPosition(int newPosition)
         {
             _position = newPosition % 26;
+        }
+
+        public char GetCharForward(char input)
+        {
+            // Get the character at the position of the input character
+            char output = _wiring[(input - 'A' + _position) % 26];
+
+            // Return the character
+            return output;       
+        }
+
+        public char GetCharBackward(char input)
+        {
+            // Get the position of the input character
+            int position = _wiring.IndexOf(input);
+
+            // Get the character at the position of the input character
+            char output = (char)('A' + (position - _position + 26) % 26);
+
+            // Return the character
+            return output;
         }
 
         private void setWiring()
@@ -90,33 +117,6 @@ namespace Enigma.Model
                     _wiring = "FKQHTLXOCBJSPDZRAMEWNIUYGV";
                     break;
             }
-        }
-
-        public char GetCharForward(char input, bool increaseRotor)
-        {
-            // Get the character at the position of the input character
-            char output = _wiring[(input - 'A' + _position) % 26];
-
-            // If increaseRotor is true, increase the position of the rotor
-            if(increaseRotor)
-            {
-                incrementPosition();
-            }
-
-            // Return the character
-            return output;            
-        }
-
-        public char GetCharBackward(char input)
-        {
-            // Get the position of the input character
-            int position = _wiring.IndexOf(input);
-
-            // Get the character at the position of the input character
-            char output = (char)('A' + (position - _position + 26) % 26);
-
-            // Return the character
-            return output;
         }
     }
 }
