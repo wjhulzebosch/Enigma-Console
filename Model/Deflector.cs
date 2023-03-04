@@ -15,7 +15,7 @@ namespace Enigma.Model
             _wiring = "YRUHQSLDPXNGOKMIEBFZCWVJAT";
         }
 
-        public char GetCharForward(char input)
+        public char GetChar(char input)
         {
             int index = input - 'A';
             return _wiring[index];

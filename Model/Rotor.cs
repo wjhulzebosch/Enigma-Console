@@ -22,11 +22,11 @@ namespace Enigma.Model
     internal class Rotor
     {
         // Rotor wiring for each rotor:
-        // RotorI:      EKMFLGDQVZNTOWYHXUSPAIBRCJ
-        // RotorII:     AJDKSIRUXBLHWTMCQGZNPYFVOE
-        // RotorIII:    BDFHJLCPRTXVZNYEIWGAKMUSQO
-        // RotorIV:     ESOVPZJAYQUIRHXLNFTGKDCMWB
-        // RotorV:      VZBRGITYUPSDNHLXAWMJQOFECK
+        // RotorI:      EKMFLGDQVZNTOWYHXUSPAIBRCJ, notch at Q
+        // RotorII:     AJDKSIRUXBLHWTMCQGZNPYFVOE, notch at E
+        // RotorIII:    BDFHJLCPRTXVZNYEIWGAKMUSQO, notch at V
+        // RotorIV:     ESOVPZJAYQUIRHXLNFTGKDCMWB, notch at J
+        // RotorV:      VZBRGITYUPSDNHLXAWMJQOFECK, notch at Z
         // RotorVI:     JPGVOUMFYQBENHZRDKASXLICTW
         // RotorVII:    NZJHGRCXMYSWBOUFAIVLPEKQDT
         // RotorVIII:   FKQHTLXOCBJSPDZRAMEWNIUYGV
@@ -34,6 +34,7 @@ namespace Enigma.Model
         private int _position;
         private RotorType _rotorType;
         private string _wiring;
+        private int _notch;
 
         // create a constructor for the rotor class
         public Rotor(RotorType rotorType, int position)
@@ -51,10 +52,16 @@ namespace Enigma.Model
         /// </summary>
         public bool IncrementPosition()
         {
-            bool returnValue = false;
             _position++;      
             _position %= 26;
-            return returnValue;
+
+            // If the rotor is at the notch, return true
+            if (_position == _notch)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public int GetPosition()
@@ -94,27 +101,38 @@ namespace Enigma.Model
             {
                 case RotorType.RotorI:
                     _wiring = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
+                    _notch = 16;
                     break;
                 case RotorType.RotorII:
                     _wiring = "AJDKSIRUXBLHWTMCQGZNPYFVOE";
+                    _notch = 4;
                     break;
                 case RotorType.RotorIII:
                     _wiring = "BDFHJLCPRTXVZNYEIWGAKMUSQO";
+                    _notch = 21;
                     break;
                 case RotorType.RotorIV:
                     _wiring = "ESOVPZJAYQUIRHXLNFTGKDCMWB";
+                    _notch = 9;
                     break;
                 case RotorType.RotorV:
                     _wiring = "VZBRGITYUPSDNHLXAWMJQOFECK";
+                    _notch = 25;
                     break;
                 case RotorType.RotorVI:
                     _wiring = "JPGVOUMFYQBENHZRDKASXLICTW";
+                    throw new NotImplementedException();
                     break;
                 case RotorType.RotorVII:
                     _wiring = "NZJHGRCXMYSWBOUFAIVLPEKQDT";
+                    throw new NotImplementedException();
                     break;
                 case RotorType.RotorVIII:
                     _wiring = "FKQHTLXOCBJSPDZRAMEWNIUYGV";
+                    throw new NotImplementedException();
+                    break;
+                default:
+                    throw new NotImplementedException();
                     break;
             }
         }
